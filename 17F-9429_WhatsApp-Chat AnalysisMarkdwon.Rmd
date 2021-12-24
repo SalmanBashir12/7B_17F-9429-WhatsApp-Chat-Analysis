@@ -15,9 +15,41 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
+
+```{r}
+install.packages("rwhatsapp")
+install.packages("dplyr")
+install.packages("ggplot2")
+install.packages("lubridate")
+library(rwhatsapp)
+library(dplyr)
+library(ggplot2)
+library(lubridate)
 ```
+Loading dataset
+
+```{r}
+chat <- rwa_read("C:\\Users\\Hp\\Documents\\R\\7B_17F-9429-WhatsApp-Chat-Analysis\\WhatsApp Chat with Usama 17nu Cfd.txt") %>% 
+  filter(!is.na(author)) # remove messages without author
+chat
+
+
+```
+chat per day analysis with ggplot2
+
+```{r}
+library("ggplot2"); theme_set(theme_minimal())
+chat %>%
+  mutate(day = date()) %>%
+  count(day) %>%
+  ggplot(aes(x = day, y = n)) +
+  geom_bar(stat = "identity") +
+  ylab("") + xlab("") +
+  ggtitle("Messages per day")
+
+
+```
+
 
 ## Including Plots
 
